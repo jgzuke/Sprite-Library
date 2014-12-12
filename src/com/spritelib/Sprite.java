@@ -2,18 +2,24 @@
  * behavior for all sprites
  */
 package com.spritelib;
+
+import android.graphics.Bitmap;
+
 abstract public class Sprite
 {
 	protected double x;
 	protected double y;
 	protected double rotation;
-	protected double width;
-	protected double height;
+	protected int width;
+	protected int height;
 	protected boolean isVideo;
 	protected int frame = 0;
 	protected boolean playing;
-	public Sprite(double X, double Y, double Width, double Height, double Rotation, int Frame,
-			boolean IsVideo, boolean Playing)
+	protected Bitmap image = null;
+	protected boolean visible;
+	
+	public Sprite(double X, double Y, int Width, int Height, double Rotation,
+	int Frame, boolean IsVideo, boolean Playing, boolean Visible, Bitmap Image)
 	{
 		x=X;
 		y=Y;
@@ -23,6 +29,18 @@ abstract public class Sprite
 		frame=Frame;
 		isVideo=IsVideo;
 		playing=Playing;
+		visible = Visible;
+		image = Image;
+		sizeImage();
+	}
+	protected void swapImage(Bitmap newImage)
+	{
+		image = newImage;
+	}
+	protected void sizeImage()
+	{
+		width = image.getWidth();
+		height = image.getHeight();
 	}
 	/**
 	 * called every frame, performs desired actions
