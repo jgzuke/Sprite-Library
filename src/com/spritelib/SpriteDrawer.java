@@ -7,55 +7,58 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.Rect;
 
 abstract public class SpriteDrawer
 {
 	private Matrix rotateImages = new Matrix();
-	private Paint p;
-	public SpriteDrawer(Paint P)
+	public SpriteDrawer()
 	{
-		p=P;
-	}
-	/**
-	 * updates the paint to use
-	 */
-	protected void updatePaint(Paint P)
-	{
-		p=P;
+		
 	}
 	/**
 	 * draws a sprite
 	 */
-	protected void draw(Sprite sprite, int levelX, int levelY, Canvas g)
+	public void drawFlat(Sprite sprite, Canvas g, Paint p)
 	{
-		int width = sprite.width;
-		int height = sprite.height;
-		int lowX = (int) sprite.x - (width / 2);
-		int lowY = (int) sprite.y - (height / 2);
-		if(inView(lowX, lowY, width, height, levelX, levelY))
+		if(sprite!=null && onScreen(sprite.x, sprite.y, sprite.width, sprite.height))
 		{
-			rotateImages.reset();
-			rotateImages.postTranslate(-width / 2, -height / 2);
-			rotateImages.postRotate((float) sprite.rotation);
-			rotateImages.postTranslate((float) sprite.x, (float) sprite.y);
-			g.drawBitmap(sprite.image, rotateImages, p);
-			sprite = null;
+			g.drawBitmap(sprite.image, (int)sprite.x-sprite.width, (int)sprite.y-sprite.height, p);
 		}
 	}
 	/**
-	 * checks whether object is in view
-	 * @param lowx objects low x
-	 * @param lowy objects low y
-	 * @param width objects width
-	 * @param height objects height
-	 * @return whether object is in view
+	 * draws a sprite
 	 */
-	private boolean inView(int lowx, int lowy, int width, int height, int levelX, int levelY)
+	public void drawFlat(Sprite sprite, Bitmap image, Canvas g, Paint p)
 	{
-		lowx += levelX - 10;
-		int highx = lowx + width + 20;
-		lowy += levelY - 10;
-		int highy = lowy + height + 20;
-		return !(lowx > 300 || highx < 0 || lowy > 300 || highy < 0);
+		if(sprite!=null && onScreen(sprite.x, sprite.y, sprite.width, sprite.height))
+		{
+			g.drawBitmap(image, (int)sprite.x-sprite.width, (int)sprite.y-sprite.height, p);
+		}
 	}
+	/**
+	 * draws a sprite
+	 */
+	public void draw(Sprite sprite, Canvas g, Paint p)
+	{
+		if(sprite!=null&&onScreen(sprite.x, sprite.y, sprite.width, sprite.height))
+		{
+				rotateImages.reset();
+				rotateImages.postTranslate(-sprite.width / 2, -sprite.height / 2);
+				rotateImages.postRotate((float) sprite.rotation);
+				rotateImages.postTranslate((float) sprite.x, (float) sprite.y);
+				g.drawBitmap(sprite.image, rotateImages, p);
+		}
+	}
+	/**
+	 * Replaces canvas.drawBitmap(Bitmap, Rect, Rect, Paint) and auto scales
+	 */
+	public void drawRect(Bitmap image, Rect r, Canvas g, Paint p)
+	{
+		if(onScreen((r.left+r.right)/2, (r.top+r.bottom)/2, r.right - r.left, r.bottom - r.top))
+		{
+			g.drawBitmap(image, null, r, p);
+		}
+	}
+	abstract protected boolean onScreen(double x, double y, int width, int height);
 }

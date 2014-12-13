@@ -6,20 +6,18 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-public final class ImageLibrary
+abstract public class ImageLoader
 {
-	private String getting;
-	protected Resources res;
-	protected String packageName;
-	protected BitmapFactory.Options opts;
-	protected Bitmap transattack;
-	protected int scrollPosition = 0;
+	public String getting;
+	public Resources res;
+	public String packageName;
+	public BitmapFactory.Options opts;
 	/**
 	 * loads in images and optimizes settings for loading
 	 * @param contextSet start activity for getting resources etc
 	 * @param controlSet control object
 	 */
-	public ImageLibrary(Context contextSet)
+	public ImageLoader(Context contextSet)
 	{
 		opts = new BitmapFactory.Options();
 		opts.inDither = false;
@@ -53,7 +51,7 @@ public final class ImageLibrary
 	 * @param width End width of image being loaded
 	 * @param height End height of image being loaded
 	 */
-	protected Bitmap[] loadArray1D(int length, String start, int width, int height)
+	public Bitmap[] loadArray1D(int length, String start, int width, int height)
 	{
 		Bitmap[] newArray = new Bitmap[length];
 		for(int i = 0; i < length; i++)
@@ -81,7 +79,7 @@ public final class ImageLibrary
 	 * Loads image of name given from resources and scales to specified width and height
 	 * @return Returns bitmap loaded and resized
 	 */
-	protected Bitmap loadImage(String imageName, int width, int height)
+	public Bitmap loadImage(String imageName, int width, int height)
 	{
 		int imageNumber = res.getIdentifier(imageName, "drawable", packageName);
 		return Bitmap.createScaledBitmap(BitmapFactory.decodeResource(res, imageNumber, opts), width, height, false);
