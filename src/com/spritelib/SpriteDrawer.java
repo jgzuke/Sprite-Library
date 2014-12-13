@@ -23,7 +23,7 @@ abstract public class SpriteDrawer
 	{
 		if(sprite!=null && onScreen(sprite.x, sprite.y, sprite.width, sprite.height))
 		{
-			g.drawBitmap(sprite.image, (int)sprite.x-sprite.width, (int)sprite.y-sprite.height, p);
+			g.drawBitmap(sprite.image, (int)sprite.x-(sprite.width/2), (int)sprite.y-(sprite.height/2), p);
 		}
 	}
 	/**
@@ -31,9 +31,11 @@ abstract public class SpriteDrawer
 	 */
 	public void drawFlat(Sprite sprite, Bitmap image, Canvas g, Paint p)
 	{
-		if(sprite!=null && onScreen(sprite.x, sprite.y, sprite.width, sprite.height))
+		int w = image.getWidth();
+		int h  = image.getHeight();
+		if(sprite!=null && onScreen(sprite.x, sprite.y, w, h))
 		{
-			g.drawBitmap(image, (int)sprite.x-sprite.width, (int)sprite.y-sprite.height, p);
+			g.drawBitmap(image, (int)sprite.x-(w/2), (int)sprite.y-(h/2), p);
 		}
 	}
 	/**
