@@ -67,8 +67,11 @@ abstract public class Sprite
 	}
 	protected void sizeImage()
 	{
-		width = image.getWidth();
-		height = image.getHeight();
+		if(image!=null)
+		{
+			width = image.getWidth();
+			height = image.getHeight();
+		}
 	}
 	/**
 	 * called every frame, performs desired actions

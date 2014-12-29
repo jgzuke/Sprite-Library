@@ -45,6 +45,30 @@ abstract public class ImageLoader
 		}
 	}
 	/**
+	 * recycles desired array of images
+	 * @param length length of array
+	 * @param array array to recycle
+	 */
+	protected void recycleArray(Bitmap[][] array)
+	{
+		int length = array.length;
+		for(int i = 0; i < length; i++)
+		{
+			if(array[i] != null)
+			{
+				int length2 = array[i].length;
+				for(int j = 0; j < length2; j++)
+				{
+					if(array[i][j] != null)
+					{
+						array[i][j].recycle();
+						array[i][j] = null;
+					}
+				}
+			}
+		}
+	}
+	/**
 	 * Loads and resizes array of images
 	 * @param length Length of array to load
 	 * @param start Starting string which precedes array index to match resource name
@@ -58,6 +82,26 @@ abstract public class ImageLoader
 		{
 			getting = start + correctDigits(i + 1, 4);
 			newArray[i] = loadImage(getting, width, height);
+		}
+		return newArray;
+	}
+	/**
+	 * Loads and resizes array of images
+	 * @param length Length of array to load
+	 * @param start Starting string which precedes array index to match resource name
+	 * @param width End width of image being loaded
+	 * @param height End height of image being loaded
+	 */
+	public Bitmap[][] loadArray2D(int length, int length2, String start, int width, int height)
+	{
+		Bitmap[][] newArray = new Bitmap[length][length2];
+		for(int i = 0; i < length; i++)
+		{
+			for(int j = 0; j < length2; j++)
+			{
+				getting = start + correctDigits(i + (j*length) + 1, 4);
+				newArray[i][j] = loadImage(getting, width, height);
+			}
 		}
 		return newArray;
 	}
