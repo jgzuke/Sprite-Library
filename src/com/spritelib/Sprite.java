@@ -4,6 +4,7 @@
 package com.spritelib;
 
 import android.graphics.Bitmap;
+import android.util.Log;
 
 abstract public class Sprite
 {
@@ -17,7 +18,7 @@ abstract public class Sprite
 	public boolean playing = false;
 	public Bitmap image = null;
 	public boolean visible = true;
-	public boolean deleted = false;
+	//public boolean deleted = false;
 	
 	public Sprite(double X, double Y, int Width, int Height, double Rotation,
 	int Frame, boolean IsVideo, boolean Playing, Bitmap Image)
